@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ZPath — A guide into private money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:   #F4EFE2;
+  --paper2:  #ECE6D5;
+  --paper3:  #DDD5BE;
+  --ink:     #1F2316;
+  --ink2:    #2A2E20;
+  --soft:    #3D4232;
+  --mute:    #6D6F60;
+  --rust:    #B95220;
+  --rust2:   #934018;
+  --rsft:    #E2C2A8;
+  --pod:     #F4EFE2;
+  --hair:    rgba(31,35,22,.11);
+  --hairsft: rgba(31,35,22,.06);
+  --hairdk:  rgba(244,239,226,.10);
+  --wa:      #25D366;
+  --wa2:     #1FB659;
+}
+*{box-sizing:border-box;-webkit-font-smoothing:antialiased;margin:0;padding:0}
+::selection{background:var(--ink);color:var(--paper)}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Geist',sans-serif;font-size:17px;line-height:1.55;overflow-x:hidden}
+h1,h2,h3,h4{font-weight:400}
+h1{font-family:'Instrument Serif',serif;font-size:clamp(56px,9vw,130px);line-height:.95;letter-spacing:-.025em}
+h2{font-family:'Instrument Serif',serif;font-size:clamp(38px,6vw,84px);line-height:1;letter-spacing:-.022em}
+h3{font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,36px);line-height:1.05;letter-spacing:-.018em}
+h4{font-family:'Instrument Serif',serif;font-size:22px;line-height:1.1;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'Instrument Serif',serif}
+.mono{font-family:'JetBrains Mono',monospace}
+.label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+
+/* Layout */
+.wrap{max-width:1280px;margin:0 auto;padding:0 48px}
+@media(max-width:767px){.wrap{padding:0 24px}}
+section{padding:120px 0}
+@media(max-width:767px){section{padding:72px 0}}
+.ink{background:var(--ink);color:var(--pod)}
+.paper2{background:var(--paper2)}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:100;height:72px;display:flex;align-items:center;background:rgba(244,239,226,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+nav.on{border-bottom:1px solid var(--hair)}
+.nav-i{display:flex;align-items:center;justify-content:space-between;width:100%}
+.logo{font-family:'Instrument Serif',serif;font-size:28px;letter-spacing:-.04em;color:var(--ink);display:flex;align-items:baseline}
+.logo span{color:var(--rust);font-style:italic}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{font-size:14px;color:var(--ink);transition:color .15s}
+.nav-links a:hover{color:var(--rust)}
+.nav-cta{background:var(--ink)!important;color:var(--paper)!important;padding:0 20px;height:38px;border-radius:999px;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;transition:background .15s!important}
+.nav-cta:hover{background:var(--ink2)!important}
+.ham{display:none;background:none;border:none;cursor:pointer;color:var(--ink);padding:6px}
+@media(max-width:900px){.nav-links a:not(.nav-cta){display:none}.ham{display:block}}
+.mob{position:fixed;inset:0;z-index:200;background:var(--paper);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:20px;padding:72px 32px;transform:translateY(-100%);transition:transform .3s ease}
+.mob.open{transform:translateY(0)}
+.mob a{font-family:'Instrument Serif',serif;font-size:42px;color:var(--ink);line-height:1}
+.mob a:hover{color:var(--rust)}
+.mob-close{position:absolute;top:20px;right:20px;background:none;border:none;cursor:pointer;color:var(--ink);padding:8px}
+.mob-wa{margin-top:16px;background:var(--wa);color:#fff!important;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:500;display:inline-flex;align-items:center;gap:10px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 28px;border-radius:999px;font-family:'Geist',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border:none;transition:all .18s;text-decoration:none;white-space:nowrap}
+.btn:active{transform:scale(.98)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:var(--wa2)}
+.btn-wa-lg{height:62px;padding:0 32px;font-size:16px}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{background:var(--ink2)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost-dk{background:transparent;color:var(--pod);border:1px solid rgba(244,239,226,.4)}
+.btn-ghost-dk:hover{border-color:var(--pod)}
+.btn-paper{background:var(--paper);color:var(--ink)}
+.btn-paper:hover{background:var(--paper2)}
+.arr{display:inline-block;transition:transform .2s}
+.btn:hover .arr{transform:translateX(3px)}
+a:hover .arr{transform:translateX(3px)}
+
+/* Trust strip */
+.trust{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:20px 0}
+.trust-i{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.trust-item{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:8px}
+.trust-item::before{content:'—';color:var(--rust)}
+
+/* Section head */
+.sh{display:grid;grid-template-columns:1fr 1.4fr;gap:64px;margin-bottom:88px;align-items:end}
+@media(max-width:1023px){.sh{grid-template-columns:1fr;gap:24px;margin-bottom:56px}}
+.sh .ntag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--rust);margin-bottom:14px}
+.ink .sh .ntag{color:var(--rsft)}
+.sh .right p{font-size:18px;color:var(--soft);max-width:54ch;font-weight:300;line-height:1.55}
+.ink .sh .right p{color:rgba(244,239,226,.75)}
+
+/* Hero */
+.hero{padding:72px 0 112px;min-height:90vh;display:flex;align-items:center}
+@media(max-width:767px){.hero{padding:48px 0 72px;min-height:auto}}
+.hero-dot{width:6px;height:6px;background:var(--rust);border-radius:50%;flex-shrink:0}
+.hero-meta{display:flex;align-items:center;gap:14px;margin-bottom:36px}
+.hero h1 em{font-style:italic;color:var(--rust)}
+.hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:72px;margin-top:56px;align-items:end}
+@media(max-width:1023px){.hero-grid{grid-template-columns:1fr;gap:48px}}
+.hero-body{font-size:20px;line-height:1.5;max-width:500px;color:var(--soft);font-weight:300}
+.hero-body em{font-family:'Instrument Serif',serif;font-style:italic;color:var(--ink);font-size:21px}
+.hero-cta{margin-top:32px}
+.hero-sub{margin-top:14px;font-size:13px;color:var(--mute);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hero-sub strong{color:var(--ink);font-weight:500}
+
+/* Phone */
+.phone-wrap{display:flex;justify-content:flex-end}
+@media(max-width:1023px){.phone-wrap{justify-content:center}}
+.phone{width:300px;background:#0a0a08;border-radius:42px;padding:9px;box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,0 40px 80px -20px rgba(14,14,12,.3),0 16px 32px -12px rgba(14,14,12,.15);position:relative;flex-shrink:0}
+.phone::before{content:'';position:absolute;left:-2px;top:108px;width:3px;height:30px;background:#0a0a08;border-radius:2px 0 0 2px}
+.phone::after{content:'';position:absolute;left:-2px;top:156px;width:3px;height:54px;background:#0a0a08;border-radius:2px 0 0 2px;box-shadow:0 68px 0 #0a0a08}
+.phone-sr{position:absolute;right:-2px;top:136px;width:3px;height:76px;background:#0a0a08;border-radius:0 2px 2px 0}
+.phone-screen{background:#DDD5BF;border-radius:34px;overflow:hidden;aspect-ratio:9/19.2;display:flex;flex-direction:column;position:relative}
+.phone-notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:88px;height:24px;background:#0a0a08;border-radius:12px;z-index:5}
+.phone-notch::after{content:'';position:absolute;right:12px;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:#1a1a18}
+.sb{height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 22px 0 20px;font-family:'Geist',sans-serif;font-size:12px;font-weight:600;color:var(--ink);background:var(--paper);flex-shrink:0;z-index:4;position:relative}
+.sb-r{display:flex;align-items:center;gap:5px}
+.sb-bat{width:20px;height:10px;border:1.2px solid var(--ink);border-radius:2.5px;padding:1px;position:relative}
+.sb-bat::after{content:'';position:absolute;right:-3px;top:2.5px;width:2px;height:5px;background:var(--ink);border-radius:0 1px 1px 0}
+.sb-fill{width:72%;height:100%;background:var(--ink);border-radius:1px}
+.chat-hdr{background:var(--paper);padding:6px 14px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--hair);flex-shrink:0}
+.chat-av{width:34px;height:34px;background:var(--ink);color:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-style:italic;font-size:17px;flex-shrink:0;position:relative}
+.chat-av::after{content:'';position:absolute;bottom:0;right:0;width:9px;height:9px;border-radius:50%;background:#2BB85C;border:2px solid var(--paper)}
+.chat-nm{font-size:13px;font-weight:500}
+.chat-st{font-size:10px;color:var(--mute);font-family:'JetBrains Mono',monospace;letter-spacing:.02em;margin-top:1px}
+.chat-body{padding:14px 12px;display:flex;flex-direction:column;gap:8px;background:#DDD5BF;background-image:radial-gradient(rgba(14,14,12,.025) 1px,transparent 1px);background-size:12px 12px;flex:1;overflow:hidden}
+.chat-date{align-self:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mute);background:rgba(244,239,226,.7);padding:3px 9px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase}
+.bub{max-width:82%;padding:8px 11px 6px;border-radius:13px;font-size:12.5px;line-height:1.42;position:relative;box-shadow:0 1px 1px rgba(14,14,12,.04)}
+.bub.bot{background:var(--paper);color:var(--ink);align-self:flex-start;border-bottom-left-radius:3px}
+.bub.bot::before{content:'';position:absolute;bottom:0;left:-6px;width:10px;height:10px;background:var(--paper);clip-path:polygon(100% 0,100% 100%,0 100%)}
+.bub.bot+.bub.bot{margin-top:-3px}
+.bub.bot+.bub.bot::before{display:none}
+.bub.usr{background:var(--ink);color:var(--paper);align-self:flex-end;border-bottom-right-radius:3px}
+.bub.usr::before{content:'';position:absolute;bottom:0;right:-6px;width:10px;height:10px;background:var(--ink);clip-path:polygon(0 0,100% 100%,0 100%)}
+.bub.wrn{background:var(--paper);color:var(--ink);border:1px solid var(--rust)}
+.bub.wrn::before{display:none}
+.bub-t{font-size:9px;color:var(--mute);font-family:'JetBrains Mono',monospace;float:right;margin-left:8px;margin-top:2px}
+.bub.usr .bub-t{color:rgba(244,239,226,.5)}
+.sw-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--rust);margin-right:5px;padding:1px 4px;background:rgba(185,82,32,.12);border-radius:3px;letter-spacing:.06em;font-weight:500;vertical-align:middle}
+.wrn-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;color:var(--rust);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:4px;margin-bottom:5px}
+.wrn-lbl::before{content:'';width:5px;height:5px;background:var(--rust);border-radius:50%;flex-shrink:0}
+.typing{display:inline-flex;gap:3px;align-items:center;background:var(--paper);padding:10px 13px;border-radius:13px;border-bottom-left-radius:3px;align-self:flex-start;box-shadow:0 1px 1px rgba(14,14,12,.04)}
+.typing span{width:5px;height:5px;background:var(--mute);border-radius:50%;animation:blink 1.3s infinite}
+.typing span:nth-child(2){animation-delay:.18s}
+.typing span:nth-child(3){animation-delay:.36s}
+@keyframes blink{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-2px)}}
+.chat-inp{background:var(--paper);border-top:1px solid var(--hair);padding:9px 12px 16px;display:flex;align-items:center;gap:7px;flex-shrink:0}
+.inp-fld{flex:1;background:var(--paper2);border-radius:999px;padding:7px 13px;font-size:11.5px;color:var(--mute);display:flex;align-items:center;justify-content:space-between}
+.inp-send{width:30px;height:30px;background:var(--ink);color:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.home-bar{width:100px;height:4px;background:var(--ink);border-radius:999px;opacity:.8;margin:0 auto 4px;flex-shrink:0}
+
+/* Problem */
+.prob-list{display:flex;flex-direction:column}
+.prob-row{display:grid;grid-template-columns:72px 1fr 1fr;gap:28px;padding:36px 0;border-top:1px solid var(--hair);align-items:baseline}
+.prob-row:last-child{border-bottom:1px solid var(--hair)}
+@media(max-width:767px){.prob-row{grid-template-columns:48px 1fr;gap:14px;padding:24px 0}.prob-row p{grid-column:2}}
+.prob-n{font-family:'Instrument Serif',serif;font-style:italic;font-size:42px;color:var(--rust);line-height:1}
+.prob-row h3{font-family:'Instrument Serif',serif;font-weight:400;font-size:29px;line-height:1.05;letter-spacing:-.018em}
+.prob-row p{color:var(--soft);font-size:15.5px;max-width:42ch;line-height:1.5}
+
+/* Layers */
+.layer-list{display:flex;flex-direction:column}
+.layer{display:grid;grid-template-columns:108px 1.1fr 1fr auto;gap:36px;padding:52px 0;border-top:1px solid var(--hairdk);align-items:baseline}
+.layer-list .layer:last-child{border-bottom:1px solid var(--hairdk)}
+@media(max-width:1023px){.layer{grid-template-columns:72px 1fr;gap:14px 22px;padding:36px 0}.layer .lb,.layer .lt{grid-column:2}}
+.ln{font-family:'Instrument Serif',serif;font-style:italic;font-size:78px;color:var(--rust);line-height:.9}
+.ltag{display:block;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--rsft);margin-bottom:9px}
+.lt{font-family:'Instrument Serif',serif;font-size:37px;line-height:1;color:var(--pod);letter-spacing:-.02em}
+.lb{color:rgba(244,239,226,.72);font-size:15.5px;max-width:42ch;font-weight:300}
+.ltime{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(244,239,226,.45);letter-spacing:.06em;white-space:nowrap}
+.layer-cta{display:flex;justify-content:space-between;align-items:center;margin-top:64px;padding-top:36px;border-top:1px solid var(--hairdk);gap:20px;flex-wrap:wrap}
+.layer-cta p{font-family:'Instrument Serif',serif;font-style:italic;font-size:26px;color:var(--pod);max-width:26ch;line-height:1.15}
+
+/* Action */
+.action-grid{display:grid;grid-template-columns:1fr 340px;gap:88px;align-items:center}
+@media(max-width:1023px){.action-grid{grid-template-columns:1fr;gap:48px}.phone-wrap{justify-content:center}}
+.feat-list{display:flex;flex-direction:column}
+.feat{display:grid;grid-template-columns:54px 1fr;gap:22px;padding:24px 0;border-top:1px solid var(--hair);align-items:baseline}
+.feat-list .feat:last-child{border-bottom:1px solid var(--hair)}
+.feat-n{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--mute);padding-top:5px}
+.feat h4{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;line-height:1.1;margin-bottom:5px;letter-spacing:-.01em}
+.feat p{color:var(--soft);font-size:15.5px;max-width:48ch;line-height:1.5;font-weight:300}
+
+/* Language */
+.lang-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+@media(max-width:767px){.lang-grid{grid-template-columns:1fr}}
+.lang-col{padding:44px 52px;border-right:1px solid var(--hair)}
+.lang-col:last-child{border-right:none}
+@media(max-width:767px){.lang-col{padding:32px 0;border-right:none;border-bottom:1px solid var(--hair)}.lang-col:last-child{border-bottom:none}}
+.lang-col .label{display:block;margin-bottom:20px}
+.ll{font-family:'Instrument Serif',serif;font-size:22px;line-height:1.25;letter-spacing:-.012em;color:var(--ink);padding:12px 0;border-top:1px solid var(--hairsft)}
+.ll:first-of-type{border-top:none}
+.ll.you{font-family:'Geist',sans-serif;font-size:15px;color:var(--mute)}
+.ll.you::before{content:'› ';color:var(--rust)}
+.lang-fn{margin-top:40px;font-size:15.5px;color:var(--soft);line-height:1.6;max-width:62ch}
+.lang-fn code{font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--paper2);padding:2px 7px;border-radius:4px;color:var(--ink)}
+.lang-fn .note{display:block;margin-top:10px;font-size:13px;color:var(--mute)}
+
+/* Personas */
+.persona-list{display:flex;flex-direction:column}
+.persona{display:grid;grid-template-columns:54px minmax(260px,1fr) 2fr;gap:36px;padding:32px 0;border-top:1px solid var(--hairdk);align-items:baseline;transition:padding-left .24s}
+.persona-list .persona:last-child{border-bottom:1px solid var(--hairdk)}
+.persona:hover{padding-left:14px}
+@media(max-width:767px){.persona{grid-template-columns:46px 1fr;gap:10px 18px;padding:20px 0}.persona p{grid-column:2}}
+.pn{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--rsft);letter-spacing:.06em}
+.pt{font-family:'Instrument Serif',serif;font-size:29px;font-weight:400;line-height:1.05;color:var(--pod);letter-spacing:-.018em}
+.persona p{color:rgba(244,239,226,.68);font-size:15px;max-width:48ch;font-weight:300;line-height:1.55}
+
+/* Safety */
+.safety-q{font-family:'Instrument Serif',serif;font-size:clamp(28px,4vw,52px);line-height:1.1;letter-spacing:-.022em;max-width:22ch;color:var(--ink);margin:28px 0 72px}
+.safety-q em{font-style:italic;color:var(--rust)}
+.safety-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+@media(max-width:1023px){.safety-grid{grid-template-columns:1fr}}
+.sc{padding:36px 28px 36px 0;border-right:1px solid var(--hair)}
+.sc:last-child{border-right:none;padding-right:0}
+@media(max-width:1023px){.sc{padding:28px 0;border-right:none;border-bottom:1px solid var(--hair)}.sc:last-child{border-bottom:none}}
+.sc .label{display:block;margin-bottom:16px}
+.sc h3{font-family:'Instrument Serif',serif;font-weight:400;font-size:25px;line-height:1.1;margin-bottom:10px;letter-spacing:-.015em}
+.sc p{color:var(--soft);font-size:14.5px;max-width:34ch;line-height:1.55;font-weight:300}
+.sc a{color:var(--ink);font-size:13.5px;border-bottom:1px solid var(--rust);padding-bottom:2px;display:inline-block;margin-top:14px;transition:color .15s}
+.sc a:hover{color:var(--rust)}
+.scam{margin-top:48px;border:1px solid var(--rust);background:rgba(185,82,32,.04);padding:24px 28px;border-radius:4px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start}
+@media(max-width:600px){.scam{grid-template-columns:1fr;gap:10px}}
+.scam-lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--rust);white-space:nowrap}
+.scam p{font-size:15px;color:var(--ink);line-height:1.55}
+.scam strong{color:var(--rust);font-weight:500}
+
+/* Community */
+.comm-list{display:flex;flex-direction:column;margin-bottom:56px}
+.comm-row{display:grid;grid-template-columns:54px 1.2fr 2fr auto;gap:28px;padding:20px 0;border-top:1px solid var(--hair);align-items:baseline;text-decoration:none;color:inherit;transition:padding-left .24s}
+.comm-list .comm-row:last-child{border-bottom:1px solid var(--hair)}
+.comm-row:hover{padding-left:14px}
+.comm-row:hover .comm-arr{transform:translateX(6px);color:var(--rust)}
+@media(max-width:767px){.comm-row{grid-template-columns:46px 1fr auto;gap:14px}.comm-url{display:none}}
+.comm-n{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--mute);letter-spacing:.08em}
+.comm-nm{font-family:'Instrument Serif',serif;font-size:25px;font-weight:400;line-height:1.1;letter-spacing:-.015em}
+.comm-url{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mute)}
+.comm-arr{color:var(--ink);transition:transform .24s,color .24s;font-size:20px;line-height:1}
+.ea-blk{border:1px solid var(--ink);border-radius:4px;padding:48px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
+@media(max-width:767px){.ea-blk{padding:28px;grid-template-columns:1fr}}
+.ea-blk h3{font-family:'Instrument Serif',serif;font-size:clamp(24px,3.5vw,38px);font-weight:400;line-height:1.05;max-width:18ch;margin-bottom:8px;letter-spacing:-.018em}
+.ea-blk .sub{font-size:14.5px;color:var(--soft);max-width:42ch;font-weight:300}
+.ea-btns{display:flex;gap:10px;flex-wrap:wrap}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;max-width:880px;margin:0 auto}
+.faq-item{border-top:1px solid var(--hairdk)}
+.faq-list .faq-item:last-child{border-bottom:1px solid var(--hairdk)}
+.faq-q{width:100%;background:none;border:none;color:var(--pod);text-align:left;font-family:'Instrument Serif',serif;font-size:clamp(22px,2.8vw,32px);font-weight:400;line-height:1.15;padding:24px 0;cursor:pointer;display:flex;align-items:baseline;justify-content:space-between;gap:20px;letter-spacing:-.015em}
+.faq-qn{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--rsft);letter-spacing:.12em;flex-shrink:0;padding-top:10px;min-width:28px}
+.faq-qt{flex:1}
+.faq-ch{color:var(--rsft);font-size:22px;line-height:1;transition:transform .3s;flex-shrink:0;padding-top:10px}
+.faq-item.open .faq-ch{transform:rotate(45deg);color:var(--rust)}
+.faq-aw{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-item.open .faq-aw{max-height:400px}
+.faq-a{color:rgba(244,239,226,.72);font-size:16px;line-height:1.6;padding:0 0 32px 52px;max-width:62ch;font-weight:300}
+@media(max-width:767px){.faq-a{padding-left:28px}}
+
+/* Final CTA */
+.fcta{padding:140px 0}
+@media(max-width:767px){.fcta{padding:80px 0}}
+.fcta-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:72px;align-items:end}
+@media(max-width:1023px){.fcta-grid{grid-template-columns:1fr;gap:40px}}
+.fcta h2{font-size:clamp(44px,7.5vw,110px);line-height:.95;color:var(--pod);letter-spacing:-.022em}
+.fcta h2 em{font-style:italic;opacity:.55}
+.fcta .lede{font-size:18px;color:rgba(244,239,226,.72);margin-bottom:24px;max-width:42ch;font-weight:300;line-height:1.5}
+.fcta .meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:rgba(244,239,226,.45);margin-top:16px;letter-spacing:.08em}
+
+/* Footer */
+footer{background:var(--paper);color:var(--ink);padding:80px 0 32px;border-top:1px solid var(--hair)}
+.ft-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid var(--hair);margin-bottom:28px}
+@media(max-width:767px){.ft-top{grid-template-columns:1fr 1fr;gap:28px}}
+.ft-brand .tag{font-family:'Instrument Serif',serif;font-size:28px;line-height:1.1;margin:14px 0;max-width:13ch;letter-spacing:-.018em}
+.ft-brand .tag em{color:var(--rust)}
+.ft-col h5{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--mute);letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px;font-weight:400}
+.ft-col ul{list-style:none}
+.ft-col li{margin-bottom:8px}
+.ft-col a{font-size:14.5px;color:var(--ink);transition:color .15s}
+.ft-col a:hover{color:var(--rust)}
+.ft-bar{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--mute);font-family:'JetBrains Mono',monospace;letter-spacing:.04em;flex-wrap:wrap;gap:12px}
+.lang-tog{display:inline-flex;align-items:center;gap:2px}
+.lang-tog button{background:none;border:none;color:var(--mute);padding:5px 11px;font-size:11.5px;font-family:'JetBrains Mono',monospace;cursor:pointer;letter-spacing:.06em;border-radius:4px;transition:all .18s}
+.lang-tog button.on{background:var(--ink);color:var(--paper)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .65s ease,transform .65s cubic-bezier(.22,1,.36,1)}
+.reveal.vis{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+:focus-visible{outline:2px solid var(--rust);outline-offset:3px;border-radius:2px}
+
+/* WA pulse */
+.pulse-icon svg{animation:pulse 4s ease-in-out infinite;transform-origin:center}
+@keyframes pulse{0%,90%,100%{transform:scale(1)}95%{transform:scale(1.18)}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap nav-i">
+    <a href="#top" class="logo" aria-label="ZPath home">ZPath<span>.</span></a>
+    <div class="nav-links">
+      <a href="#why">Why privacy</a>
+      <a href="#how">How it works</a>
+      <a href="#safety">Safety</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://wa.me/254700000000?text=START" target="_blank" rel="noopener" class="nav-cta">
+        Start on WhatsApp <span class="arr">→</span>
+      </a>
+    </div>
+    <button class="ham" id="ham" aria-label="Menu">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h16M4 16h16"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+  <button class="mob-close" id="mob-close" aria-label="Close">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <a href="#why" class="mob-link">Why privacy</a>
+  <a href="#how" class="mob-link">How it works</a>
+  <a href="#safety" class="mob-link">Safety</a>
+  <a href="#faq" class="mob-link">FAQ</a>
+  <a href="https://wa.me/254700000000?text=START" target="_blank" rel="noopener" class="mob-wa">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>
+    Start on WhatsApp
+  </a>
+</div>
+
+<!-- HERO -->
+<section class="hero section-paper" id="top">
+  <div class="wrap" style="width:100%">
+    <div class="hero-meta">
+      <div class="hero-dot"></div>
+      <span class="label">For East Africa · 2025</span>
+    </div>
+    <h1>A guide into <em>private</em><br>money. Through<br>a WhatsApp chat.</h1>
+    <div class="hero-grid">
+      <div>
+        <p class="hero-body">ZPath teaches anyone — with <em>zero</em> crypto knowledge — to learn about Zcash, get their first ZEC, and make a real shielded transaction. No app. No account. Just messages.</p>
+        <div class="hero-cta">
+          <a href="https://wa.me/254700000000?text=START" target="_blank" rel="noopener" class="btn btn-wa btn-wa-lg">
+            <span class="pulse-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg></span>
+            Start on WhatsApp <span class="arr">→</span>
+          </a>
+        </div>
+        <div class="hero-sub">
+          <span class="mono">wa.me/254700000000</span>
+          <span>·</span>
+          <span>Reply <strong>START</strong> to begin</span>
+        </div>
+      </div>
+      <!-- Phone mockup -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-sr"></div>
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="sb">
+              <span style="font-weight:600;padding-top:3px">9:14</span>
+              <div class="sb-r">
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="7" width="2.5" height="3" rx=".4"/><rect x="4" y="5" width="2.5" height="5" rx=".4"/><rect x="8" y="2.5" width="2.5" height="7.5" rx=".4"/><rect x="12" y="0" width="2" height="10" rx=".4"/></svg>
+                <svg width="13" height="10" viewBox="0 0 13 10" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><path d="M6.5 8h.01" stroke-width="1.5"/><path d="M3 5a5 5 0 0 1 7 0"/><path d="M.5 2.5a9 9 0 0 1 12 0"/></svg>
+                <div class="sb-bat"><div class="sb-fill"></div></div>
+              </div>
+            </div>
+            <div class="chat-hdr">
+              <div class="chat-av">Z</div>
+              <div>
+                <div class="chat-nm">ZPath</div>
+                <div class="chat-st">online · replies instantly</div>
+              </div>
+            </div>
+            <div class="chat-body">
+              <div class="chat-date">Today</div>
+              <div class="bub bot"><strong>Karibu! Welcome to ZPath.</strong><span class="bub-t">9:14</span></div>
+              <div class="bub bot">A guide into Zcash — the most private digital money in the world. Reply <strong>NEXT</strong> to start.<span class="bub-t">9:14</span></div>
+              <div class="bub usr">NEXT<span class="bub-t">9:14</span></div>
+              <div class="bub bot"><strong>What is Zcash?</strong><br>Digital money. Like cash, but on your phone — nobody can see your transactions.<span class="bub-t">9:15</span></div>
+              <div class="typing"><span></span><span></span><span></span></div>
+            </div>
+            <div class="chat-inp">
+              <div class="inp-fld"><span style="font-size:11.5px">Type a message</span><span style="color:var(--mute);font-size:13px">+</span></div>
+              <div class="inp-send"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+            </div>
+            <div class="home-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="wrap trust-i">
+    <div class="trust-item">Open source</div>
+    <div class="trust-item">Community reviewed</div>
+    <div class="trust-item">English / Kiswahili</div>
+    <div class="trust-item">Zero funds to start</div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section-paper" id="why">
+  <div class="wrap">
+    <div class="reveal sh">
+      <div class="left">
+        <div class="ntag">— Why this exists</div>
+        <h2>Your money has no privacy.</h2>
+      </div>
+      <div class="right">
+        <p>Zcash changes that. Shielded transactions are mathematically private — verified on-chain, invisible to everyone except you. ZPath is how you learn to use them.</p>
+      </div>
+    </div>
+    <div class="prob-list">
+      <div class="reveal prob-row">
+        <div class="prob-n">I</div>
+        <h3>Mobile money sees everything.</h3>
+        <p>Every transaction is recorded. Who you paid, how much, when. Accessible to operators, authorities, and partners.</p>
+      </div>
+      <div class="reveal prob-row">
+        <div class="prob-n">II</div>
+        <h3>Data leaks happen.</h3>
+        <p>Financial records are regularly exposed in breaches across the region. Once leaked, your history is permanent.</p>
+      </div>
+      <div class="reveal prob-row">
+        <div class="prob-n">III</div>
+        <h3>Crypto is not private.</h3>
+        <p>Bitcoin and most digital money leave a public ledger anyone can read. Privacy is the exception, not the default.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="ink" id="how">
+  <div class="wrap">
+    <div class="reveal sh">
+      <div class="left">
+        <div class="ntag">— How it works</div>
+        <h2>Three layers. One chat.</h2>
+      </div>
+      <div class="right">
+        <p>No downloads. No signups. Just messages — at your own pace, in your own language. The bot remembers where you left off.</p>
+      </div>
+    </div>
+    <div class="layer-list">
+      <div class="reveal layer">
+        <div class="ln">01</div>
+        <div><span class="ltag">Layer 01 · Learn</span><div class="lt">Understand Zcash.</div></div>
+        <p class="lb">What it is, why financial privacy matters, how shielded transactions work, how to set up a wallet safely.</p>
+        <div class="ltime">~10 min</div>
+      </div>
+      <div class="reveal layer">
+        <div class="ln">02</div>
+        <div><span class="ltag">Layer 02 · Acquire</span><div class="lt">Get your first ZEC.</div></div>
+        <p class="lb">Buy ZEC with M-Pesa via Binance. Or practice with free testnet ZEC first — no money required.</p>
+        <div class="ltime">~30 min</div>
+      </div>
+      <div class="reveal layer">
+        <div class="ln">03</div>
+        <div><span class="ltag">Layer 03 · Verify</span><div class="lt">Prove your privacy.</div></div>
+        <p class="lb">Make a shielded transaction. Paste the transaction ID. Confirmed on-chain. First Shield issued.</p>
+        <div class="ltime">~5 min</div>
+      </div>
+    </div>
+    <div class="layer-cta">
+      <p>Start at layer one. Finish in an afternoon.</p>
+      <a href="https://wa.me/254700000000?text=START" target="_blank" rel="noopener" class="btn btn-wa btn-wa-lg">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>
+        Start on WhatsApp <span class="arr">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BOT IN ACTION -->
+<section class="paper2">
+  <div class="wrap">
+    <div class="reveal sh">
+      <div class="left">
+        <div class="ntag" style="color:var(--rust)">— See it in action</div>
+        <h2>A real conversation.</h2>
+      </div>
+      <div class="right">
+        <p>This is exactly what the bot says when you start. No marketing copy. Just the actual scripted content of Layer 1.</p>
+      </div>
+    </div>
+    <div class="action-grid">
+      <div class="reveal feat-list">
+        <div class="feat">
+          <div class="feat-n">— 01</div>
+          <div><h4>No jargon.</h4><p>Plain English and Kiswahili. Every term defined the moment it appears.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-n">— 02</div>
+          <div><h4>Any phone.</h4><p>Android or iPhone. Old or new. Runs over any data connection.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-n">— 03</div>
+          <div><h4>Your pace.</h4><p>Reply when you are ready. Come back hours or days later — the bot remembers.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-n">— 04</div>
+          <div><h4>Private by design.</h4><p>Your number is hashed on arrival. We track progress, nothing more. No analytics. No data sales.</p></div>
+        </div>
+      </div>
+      <!-- Long phone -->
+      <div class="reveal phone-wrap" style="transition-delay:.12s">
+        <div class="phone">
+          <div class="phone-sr"></div>
+          <div class="phone-notch"></div>
+          <div class="phone-screen" style="aspect-ratio:9/19.5">
+            <div class="sb">
+              <span style="font-weight:600;padding-top:3px">14:06</span>
+              <div class="sb-r">
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="7" width="2.5" height="3" rx=".4"/><rect x="4" y="5" width="2.5" height="5" rx=".4"/><rect x="8" y="2.5" width="2.5" height="7.5" rx=".4"/><rect x="12" y="0" width="2" height="10" rx=".4"/></svg>
+                <div class="sb-bat"><div class="sb-fill"></div></div>
+              </div>
+            </div>
+            <div class="chat-hdr">
+              <div class="chat-av">Z</div>
+              <div>
+                <div class="chat-nm">ZPath</div>
+                <div class="chat-st">layer 1 · learn</div>
+              </div>
+            </div>
+            <div class="chat-body">
+              <div class="chat-date">Today</div>
+              <div class="bub bot"><strong>Karibu! Welcome to ZPath.</strong> A guide into Zcash privacy. Reply <strong>NEXT</strong>.<span class="bub-t">14:02</span></div>
+              <div class="bub usr">NEXT<span class="bub-t">14:03</span></div>
+              <div class="bub bot">Zcash is digital money. Like cash, but on your phone — nobody can see your transactions.<span class="bub-t">14:03</span></div>
+              <div class="bub bot"><span class="sw-tag">SW</span>Zcash ni pesa za kidijitali. Kama pesa taslimu, lakini iko kwenye simu yako.<span class="bub-t">14:03</span></div>
+              <div class="bub usr">NEXT<span class="bub-t">14:04</span></div>
+              <div class="bub wrn">
+                <div class="wrn-lbl">Important</div>
+                Your <strong>seed phrase</strong> is the key to your money. Never share it. Reply <strong>DONE</strong>.<span class="bub-t">14:05</span>
+              </div>
+              <div class="bub usr">DONE<span class="bub-t">14:06</span></div>
+              <div class="bub bot"><strong>✓ Layer 1 complete.</strong><span class="bub-t">14:06</span></div>
+            </div>
+            <div class="chat-inp">
+              <div class="inp-fld"><span style="font-size:11.5px">Type a message</span><span style="color:var(--mute);font-size:13px">+</span></div>
+              <div class="inp-send"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+            </div>
+            <div class="home-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGE -->
+<section class="section-paper">
+  <div class="wrap">
+    <div class="reveal sh">
+      <div class="left">
+        <div class="ntag" style="color:var(--rust)">— Language</div>
+        <h2>Two languages. From day one.</h2>
+      </div>
+      <div class="right">
+        <p>Every layer, every term, every safety warning — written in both English and Kiswahili by native speakers. Switch any time.</p>
+      </div>
+    </div>
+    <div class="reveal lang-grid">
+      <div class="lang-col">
+        <span class="label">English</span>
+        <div class="ll">Zcash is digital money with real privacy.</div>
+        <div class="ll you">Tell me more.</div>
+        <div class="ll">A shielded transaction hides the sender, receiver, and amount — while staying verifiable on-chain.</div>
+      </div>
+      <div class="lang-col">
+        <span class="label">Kiswahili</span>
+        <div class="ll">Zcash ni pesa za kidijitali zenye faragha halisi.</div>
+        <div class="ll you">Niambie zaidi.</div>
+        <div class="ll">Muamala uliofichwa unaficha mtumaji, mpokeaji, na kiasi — huku ukithibitishwa kwenye blockchain.</div>
+      </div>
+    </div>
+    <p class="lang-fn">
+      Reply <code>SW</code> any time to switch to Swahili. Reply <code>EN</code> to switch back.
+      <span class="note">More languages coming — Somali, Kinyarwanda, Luganda.</span>
+    </p>
+  </div>
+</section>
+
+<!-- WHO FOR -->
+<section class="ink">
+  <div class="wrap">
+    <div class="reveal sh">
+      <div class="left">
+        <div class="ntag">— Who it is for</div>
+        <h2>For people who need <em style="font-style:italic;color:var(--rsft)">privacy.</em></h2>
+      </div>
+      <div class="right">
+        <p>ZPath is built for people, not protocols. Six profiles below — but anyone with a phone and a reason has a place here.</p>
+      </div>
+    </div>
+    <div class="persona-list">
+      <div class="reveal persona"><div class="pn">01</div><div class="pt">Market traders</div><p>Keep your business income private from competitors, relatives, and anyone who should not know.</p></div>
+      <div class="reveal persona"><div class="pn">02</div><div class="pt">Journalists &amp; activists</div><p>Receive funding without creating financial records that can be seized or traced.</p></div>
+      <div class="reveal persona"><div class="pn">03</div><div class="pt">Diaspora senders</div><p>Send money home without intermediaries seeing your family's financial life.</p></div>
+      <div class="reveal persona"><div class="pn">04</div><div class="pt">Anyone with income</div><p>Your salary, side income, and savings are your business — not your employer's or landlord's.</p></div>
+      <div class="reveal persona"><div class="pn">05</div><div class="pt">Curious developers</div><p>Learn how zk-proof privacy works by experiencing it firsthand before you start building.</p></div>
+      <div class="reveal persona"><div class="pn">06</div><div class="pt">Privacy advocates</div><p>You believe financial privacy is a human right. So do we.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="section-paper" id="safety">
+  <div class="wrap">
+    <div class="reveal sh">
+      <div class="left">
+        <div class="ntag" style="color:var(--rust)">— Your safety</div>
+        <h2>We will never ask for your money.</h2>
+      </div>
+      <div class="right">
+        <p>The most common scam in crypto is impersonation. ZPath never asks for funds, seed phrases, or private keys. Not in any layer. Not ever.</p>
+      </div>
+    </div>
+    <div class="reveal safety-q">
+      We will <em>never</em> ask for your seed phrase. We will <em>never</em> ask you to send us ZEC. We will <em>never</em> ask for your wallet password.
+    </div>
+    <div class="reveal safety-grid">
+      <div class="sc">
+        <span class="label">01 — Open source</span>
+        <h3>The whole bot is readable.</h3>
+        <p>Every line of code lives on GitHub. Anyone can audit it and verify there are no backdoors.</p>
+        <a href="#">View on GitHub <span class="arr">→</span></a>
+      </div>
+      <div class="sc">
+        <span class="label">02 — Community reviewed</span>
+        <h3>Content checked by Zcash community.</h3>
+        <p>Layer scripts are reviewed by Zcash contributors for technical accuracy. Every claim is verifiable.</p>
+        <a href="#">Read the review thread <span class="arr">→</span></a>
+      </div>
+      <div class="sc">
+        <span class="label">03 — Non-custodial</span>
+        <h3>We never hold your funds.</h3>
+        <p>ZPath is a guide. Your wallet stays on your phone, in your control. We have no access.</p>
+        <a href="#">How custody works <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="reveal scam">
+      <div class="scam-lbl">Scam warning</div>
+      <p>Anyone claiming to be ZPath support and asking for your seed phrase, private key, or a ZEC transfer is a <strong>scammer</strong>. Report them. Real ZPath support happens only inside the verified WhatsApp number on this page.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="paper2">
+  <div class="wrap">
+    <div class="reveal sh">
+      <div class="left">
+        <div class="ntag" style="color:var(--rust)">— Community</div>
+        <h2>Part of the Zcash ecosystem.</h2>
+      </div>
+      <div class="right">
+        <p>ZPath is built for and with the Zcash community. Content is reviewed by community members. Approach aligned with Zcash Community Grants.</p>
+      </div>
+    </div>
+    <div class="reveal comm-list">
+      <a class="comm-row" href="#"><div class="comm-n">— 01</div><div class="comm-nm">Zcash Community Forum</div><div class="comm-url">forum.zcashcommunity.com</div><div class="comm-arr">→</div></a>
+      <a class="comm-row" href="#"><div class="comm-n">— 02</div><div class="comm-nm">Zcash Discord</div><div class="comm-url">discord.gg/zcash</div><div class="comm-arr">→</div></a>
+      <a class="comm-row" href="#"><div class="comm-n">— 03</div><div class="comm-nm">ZecHub Wiki</div><div class="comm-url">zechub.wiki</div><div class="comm-arr">→</div></a>
+      <a class="comm-row" href="#"><div class="comm-n">— 04</div><div class="comm-nm">Open source repository</div><div class="comm-url">github.com/zpath</div><div class="comm-arr">→</div></a>
+    </div>
+    <div class="reveal ea-blk">
+      <div>
+        <h3>An East Africa Zcash community.</h3>
+        <p class="sub">Join the regional conversation. Meet other learners. Get help from local guides — in English and Kiswahili.</p>
+      </div>
+      <div class="ea-btns">
+        <a href="#" class="btn btn-ghost">Telegram</a>
+        <a href="#" class="btn btn-ink">WhatsApp community <span class="arr">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="ink" id="faq">
+  <div class="wrap">
+    <div class="reveal sh">
+      <div class="left">
+        <div class="ntag">— Questions</div>
+        <h2>Common questions.</h2>
+      </div>
+      <div class="right">
+        <p>If something is not here, message the bot. It can answer most things — and a human will take over for the rest.</p>
+      </div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="true">
+          <span class="faq-qn">01</span><span class="faq-qt">Is this free?</span><span class="faq-ch">+</span>
+        </button>
+        <div class="faq-aw" style="max-height:400px">
+          <p class="faq-a">Yes. ZPath is completely free to use. The only cost is if you choose to buy real ZEC — but you can complete the entire onboarding using free testnet ZEC first. No payment of any kind is required.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-qn">02</span><span class="faq-qt">How do I know it is not a scam?</span><span class="faq-ch">+</span>
+        </button>
+        <div class="faq-aw">
+          <p class="faq-a">ZPath is open source. All code is public on GitHub. We never ask for your seed phrase, private keys, or any payment, and we never hold your funds. If anyone claiming to be ZPath asks for funds or seed phrases, that is a scam.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-qn">03</span><span class="faq-qt">Do I need to know anything about crypto first?</span><span class="faq-ch">+</span>
+        </button>
+        <div class="faq-aw">
+          <p class="faq-a">No. ZPath assumes zero knowledge. Layer 1 starts from the very beginning — what Zcash is, why it exists, how it works. You do not need to know what a blockchain is before you start.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-qn">04</span><span class="faq-qt">What phone do I need?</span><span class="faq-ch">+</span>
+        </button>
+        <div class="faq-aw">
+          <p class="faq-a">Any phone with WhatsApp. Android or iPhone. Old or new. Even budget phones work. You need a data connection, but the bot uses minimal data — similar to a normal WhatsApp conversation.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-qn">05</span><span class="faq-qt">What is a shielded transaction?</span><span class="faq-ch">+</span>
+        </button>
+        <div class="faq-aw">
+          <p class="faq-a">A shielded transaction is a Zcash transaction where the sender, receiver, and amount are cryptographically hidden. Anyone can verify it is valid — but nobody can see the details. ZPath teaches you step by step.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-qn">06</span><span class="faq-qt">What happens to my data?</span><span class="faq-ch">+</span>
+        </button>
+        <div class="faq-aw">
+          <p class="faq-a">We do not store your phone number in readable form. It is cryptographically hashed immediately. We track your progress through the three layers. We do not share your data with any third party. We do not sell data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="ink fcta">
+  <div class="wrap">
+    <div class="reveal fcta-grid">
+      <div>
+        <div class="mono" style="font-size:10.5px;letter-spacing:.16em;color:var(--rsft);margin-bottom:20px">— Begin</div>
+        <h2>Start in <em>thirty</em><br>seconds.</h2>
+      </div>
+      <div>
+        <p class="lede">Open WhatsApp. Reply <strong style="color:var(--pod);font-weight:500">START</strong>. Your first private transaction is one chat away.</p>
+        <a href="https://wa.me/254700000000?text=START" target="_blank" rel="noopener" class="btn btn-paper btn-wa-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>
+          Start on WhatsApp <span class="arr">→</span>
+        </a>
+        <div class="meta mono">wa.me/254700000000</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <div class="logo">ZPath<span>.</span></div>
+        <div class="tag">A guide into <em>private</em> money.</div>
+        <div class="mono" style="font-size:10.5px;color:var(--mute);letter-spacing:.08em">BUILT IN NAIROBI · 2025</div>
+      </div>
+      <div class="ft-col">
+        <h5>Access</h5>
+        <ul>
+          <li><a href="https://wa.me/254700000000?text=START">WhatsApp bot</a></li>
+          <li><a href="#">Telegram backup</a></li>
+          <li><a href="#">EA community (WA)</a></li>
+          <li><a href="#">EA community (TG)</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">Open source code</a></li>
+          <li><a href="#">Zcash Forum</a></li>
+          <li><a href="#">Zcash Discord</a></li>
+          <li><a href="#">ZecHub Wiki</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h5>About</h5>
+        <ul>
+          <li><a href="#">What is ZPath</a></li>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Community review</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bar">
+      <div>© 2025 ZPath — Not affiliated with the Electric Coin Company.</div>
+      <div class="lang-tog" role="group" aria-label="Language">
+        <button class="on" onclick="this.classList.add('on');this.nextElementSibling.classList.remove('on')">EN</button>
+        <button onclick="this.classList.add('on');this.previousElementSibling.classList.remove('on')">SW</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('on', window.scrollY > 32), {passive:true});
+
+// Mobile menu
+const ham = document.getElementById('ham');
+const mob = document.getElementById('mob');
+const close = document.getElementById('mob-close');
+ham.addEventListener('click', () => mob.classList.add('open'));
+close.addEventListener('click', () => mob.classList.remove('open'));
+mob.querySelectorAll('.mob-link').forEach(a => a.addEventListener('click', () => mob.classList.remove('open')));
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(el => {
+      el.classList.remove('open');
+      el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      el.querySelector('.faq-aw').style.maxHeight = '0';
+    });
+    // Open clicked if was closed
+    if (!isOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      item.querySelector('.faq-aw').style.maxHeight = '400px';
+    }
+  });
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
