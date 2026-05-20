@@ -4,6 +4,166 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ZPath — A guide into private money</title>
+<!-- ══ SEO ═══════════════════════════════════════════════════════ -->
+
+<!-- Primary -->
+<meta name="description" content="ZPath teaches anyone to use Zcash private money through WhatsApp. Learn, get ZEC with M-Pesa, and make your first shielded transaction. No app needed. English and Kiswahili." />
+<meta name="keywords" content="Zcash, ZEC, privacy, private money, WhatsApp, East Africa, Kenya, M-Pesa, shielded transaction, crypto privacy, financial privacy" />
+<meta name="author" content="ZPath" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zpath.africa/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://zpath.africa/" />
+<meta property="og:title" content="ZPath — A guide into private money" />
+<meta property="og:description" content="Learn Zcash. Get ZEC with M-Pesa. Make your first shielded transaction. No app. No account. Just WhatsApp — in English and Kiswahili." />
+<meta property="og:image" content="https://zpath.africa/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="ZPath — A guide into private money through WhatsApp" />
+<meta property="og:site_name" content="ZPath" />
+<meta property="og:locale" content="en_KE" />
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@zpath" />
+<meta name="twitter:creator" content="@zpath" />
+<meta name="twitter:title" content="ZPath — A guide into private money" />
+<meta name="twitter:description" content="Learn Zcash. Get ZEC with M-Pesa. Make your first shielded transaction. No app. No account. Just WhatsApp." />
+<meta name="twitter:image" content="https://zpath.africa/og-image.png" />
+<meta name="twitter:image:alt" content="ZPath — A guide into private money through WhatsApp" />
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23ECE6D8'/><path d='M18 18 H82 V33 L36 67 H82 V82 H18 V67 L64 33 H18 Z' fill='%23B95220'/></svg>" />
+<link rel="apple-touch-icon" href="https://zpath.africa/apple-touch-icon.png" />
+
+<!-- Theme -->
+<meta name="theme-color" content="#ECE6D8" />
+<meta name="msapplication-TileColor" content="#ECE6D8" />
+
+<!-- Geo -->
+<meta name="geo.region" content="KE" />
+<meta name="geo.placename" content="Nairobi, Kenya" />
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://zpath.africa/#website",
+      "url": "https://zpath.africa/",
+      "name": "ZPath",
+      "description": "A WhatsApp guide into Zcash privacy. Built for East Africa.",
+      "inLanguage": ["en", "sw"]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://zpath.africa/#organization",
+      "name": "ZPath",
+      "url": "https://zpath.africa/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://zpath.africa/og-image.png",
+        "width": 1200,
+        "height": 630
+      },
+      "sameAs": [
+        "https://x.com/zpath",
+        "https://linkedin.com/company/zpath",
+        "https://instagram.com/zpath",
+        "https://facebook.com/zpath",
+        "https://reddit.com/r/zpath",
+        "https://github.com/Zpathafrica"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://zpath.africa/#webpage",
+      "url": "https://zpath.africa/",
+      "name": "ZPath — A guide into private money",
+      "description": "ZPath teaches anyone to use Zcash private money through WhatsApp. No app needed. English and Kiswahili.",
+      "isPartOf": { "@id": "https://zpath.africa/#website" },
+      "about": { "@id": "https://zpath.africa/#organization" },
+      "inLanguage": ["en", "sw"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://zpath.africa/#app",
+      "name": "ZPath WhatsApp Bot",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "WhatsApp",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A WhatsApp bot that teaches Zcash privacy in three layers: learn, acquire ZEC, verify shielded transaction.",
+      "inLanguage": ["en", "sw"],
+      "featureList": "No app required, Works on any phone, English and Kiswahili, M-Pesa compatible"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://zpath.africa/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is ZPath free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. ZPath is completely free to use. The only cost is if you choose to buy real ZEC. You can complete the entire onboarding using free testnet ZEC first."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I know ZPath is not a scam?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ZPath is open source. All code is public on GitHub. We never ask for your seed phrase, private keys, or any payment, and we never hold your funds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to know anything about crypto first?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. ZPath assumes zero knowledge. Layer 1 starts from the very beginning — what Zcash is, why it exists, how it works."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What phone do I need to use ZPath?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Any phone with WhatsApp. Android or iPhone. Old or new. Even budget phones work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a shielded transaction?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A shielded transaction is a Zcash transaction where the sender, receiver, and amount are cryptographically hidden. Anyone can verify it is valid but nobody can see the details."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to my data when I use ZPath?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We do not store your phone number in readable form. It is cryptographically hashed immediately. We do not share your data with any third party. We do not sell data."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- ══ END SEO ══════════════════════════════════════════════════ -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -2148,6 +2308,7 @@ function Hero() {
               <WAButton large />
             </div>
             <div className="hero-meta">
+              <span className="mono">wa.me/254700000000</span>
               <span>·</span>
               <span>Reply <strong style={{ color: "var(--ink)", fontWeight: 500 }}>START</strong> to begin</span>
             </div>
@@ -2287,7 +2448,7 @@ function HowItWorks() {
           )}
         </div>
         <div className="layers-cta-row">
-          <p className="blurb">Start at layer one. Finish in an hour.</p>
+          <p className="blurb">Start at layer one. Finish in an afternoon.</p>
           <WAButton large />
         </div>
       </div>
@@ -2471,7 +2632,7 @@ function FinalCTA() {
             <div>
               <p className="lede">Open WhatsApp. Reply <strong style={{ color: "var(--paper-on-dark)", fontWeight: 500 }}>START</strong>. Your first private transaction is one chat away.</p>
               <WAButton large paper pulse={false} />
-            
+              <div className="meta">wa.me/254700000000</div>
             </div>
           </div>
         </Reveal>
@@ -2525,7 +2686,7 @@ function Footer() {
             <div className="logo-mark" style={{ fontSize: 28 }}><ZMark />Path<span className="dot">.</span></div>
             <div className="tagline">A guide into <span className="accent">private</span> money.</div>
             <div className="socials" aria-label="Social">
-              <a href="https://wa.me/254702419437" target="_blank" rel="noopener" aria-label="WhatsApp"><SocialWAfooter /></a>
+              <a href="https://wa.me/254700000000" target="_blank" rel="noopener" aria-label="WhatsApp"><SocialWAfooter /></a>
               <a href="https://x.com/zpath" target="_blank" rel="noopener" aria-label="X"><SocialX /></a>
               <a href="https://linkedin.com/company/zpath" target="_blank" rel="noopener" aria-label="LinkedIn"><SocialLI /></a>
               <a href="https://instagram.com/zpath" target="_blank" rel="noopener" aria-label="Instagram"><SocialIG /></a>
@@ -2538,7 +2699,8 @@ function Footer() {
             <ul>
               <li><a href={WA_HREF}>WhatsApp bot</a></li>
               <li><a href="#">East Africa Community</a></li>
-            
+              <li><a href="#">Status</a></li>
+              <li><a href="#">Contact</a></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -2562,6 +2724,7 @@ function Footer() {
         </div>
         <div className="footer-bar">
           <div>© 2026 ZPath. Not affiliated with the Electric Coin Company.</div>
+
         </div>
       </div>
     </footer>);
